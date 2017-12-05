@@ -16,24 +16,25 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
     fun getItems(): Observable<List<TodoItem>> {
         return itemDao
                 .getAllItems()
-                .toObservable()
-                .doOnNext { items ->
+                .doAfterSuccess({
                     this.items = items
-                }
+                })
+                .toObservable()
     }
 
     fun insertItem(item: TodoItem): Observable<Long> {
         return Observable
-                .just(itemDao.insertItem(item))
+                .fromCallable { itemDao.insertItem(item) }
                 .doOnNext {
                     reloadItemsAndNotify()
                 }
     }
 
     private fun reloadItemsAndNotify() {
-        getItems()
-                .doOnNext { items ->
+        itemDao.getAllItems()
+                .doAfterSuccess { items ->
+                    this.items = items
                     changeSubject.onNext(items)
-                }
+                }.subscribe()
     }
 }

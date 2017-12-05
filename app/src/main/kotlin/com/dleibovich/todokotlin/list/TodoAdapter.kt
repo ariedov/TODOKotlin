@@ -15,6 +15,7 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
     fun setData(todoItems: List<TodoItem>) {
         this.todoItems.clear()
         this.todoItems.addAll(todoItems)
+        this.notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

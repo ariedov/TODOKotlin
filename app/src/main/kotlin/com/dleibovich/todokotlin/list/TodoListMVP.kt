@@ -15,10 +15,20 @@ interface TodoListView {
 
 class TodoListPresenter(private val repo: ItemsRepository) {
 
+    private val disposables = CompositeDisposable()
     private val stoppables = CompositeDisposable()
     private var view: TodoListView? = null
 
-    fun setView(view: TodoListView) {
+    init {
+        disposables.add(repo.getItemChanges()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { items ->
+                    view?.setData(items)
+                })
+    }
+
+    fun setView(view: TodoListView?) {
         this.view = view
     }
 
@@ -37,5 +47,9 @@ class TodoListPresenter(private val repo: ItemsRepository) {
 
     fun stop() {
         stoppables.dispose()
+    }
+
+    fun destroy() {
+        disposables.dispose()
     }
 }

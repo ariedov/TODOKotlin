@@ -1,10 +1,7 @@
 package com.dleibovich.todokotlin
 
 import android.app.Application
-import com.dleibovich.todokotlin.di.AppComponent
-import com.dleibovich.todokotlin.di.AppModule
-import com.dleibovich.todokotlin.di.DaggerAppComponent
-import com.dleibovich.todokotlin.di.ListComponent
+import com.dleibovich.todokotlin.di.*
 
 class TodoApp : Application() {
 
@@ -19,7 +16,7 @@ class TodoApp : Application() {
                 .build()
     }
 
-    fun listComponent(): ListComponent {
-        return appComponent.listComponent()
+    fun dataComponent(): DataComponent {
+        return appComponent.dataComponent()
     }
 }

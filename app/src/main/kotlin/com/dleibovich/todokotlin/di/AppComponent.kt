@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton @Component(modules = [(AppModule::class)])
 interface AppComponent {
 
-    fun listComponent(): ListComponent
+    fun dataComponent(): DataComponent
 }
 
 @Module

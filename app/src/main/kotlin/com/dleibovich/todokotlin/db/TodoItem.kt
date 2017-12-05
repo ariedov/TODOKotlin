@@ -8,7 +8,7 @@ import io.reactivex.Single
 @Entity(tableName = "items")
 data class TodoItem(
         @ColumnInfo(name = "description") val description: String,
-        @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int)
+        @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = 0)
 
 @Dao
 interface TodoItemDao {
