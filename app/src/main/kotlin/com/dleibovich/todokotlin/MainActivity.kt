@@ -1,48 +1,45 @@
 package com.dleibovich.todokotlin
 
-import android.support.v7.app.ActionBarActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ListView
-import android.widget.EditText
-import com.dleibovich.todokotlin.db.TodoCache
-import android.view.KeyEvent
-import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
+import com.dleibovich.todokotlin.db.TodoCache
+import kotlinx.android.synthetic.main.activity_main.*
 
-public class MainActivity() : ActionBarActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
-        val todos = findViewById(R.id.todos) as ListView;
-        val nextTodo =  findViewById(R.id.next_todo) as EditText;
 
         val cache = TodoCache(this)
-        val adapter = TodoAdapter();
+        val adapter = TodoAdapter()
 
-        nextTodo.setOnEditorActionListener { (textView, actionId, keyEvent) ->
+        nextTodo.setOnEditorActionListener { _, actionId, _ ->
+            var result = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                cache.open();
-                val todoItem = TodoItem(nextTodo.getText().toString(), isDone = false)
+                cache.open()
+                val todoItem = TodoItem(nextTodo.text.toString(), isDone = false)
                 nextTodo.setText("")
                 cache.putTodoItem(todoItem)
                 adapter.setData(cache.getTodoItems())
-                cache.close();
-                adapter.notifyDataSetChanged();
+                cache.close()
+                adapter.notifyDataSetChanged()
+                result = true
             }
-            true;
+            result
         }
-        cache.open();
-        cache.close();
-        todos.setAdapter(adapter);
+
+        cache.open()
+        cache.close()
+        todos.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
@@ -50,7 +47,7 @@ public class MainActivity() : ActionBarActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id = item?.getItemId() ?: 0;
+        val id = item?.itemId ?: 0
         if (id == R.id.action_settings) {
             return true
         }
