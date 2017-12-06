@@ -30,6 +30,11 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
                 }
     }
 
+    fun markAsDone(item: TodoItem): Observable<Int> {
+        return Observable
+                .fromCallable { itemDao.updateItem(item.copy(isDone = true)) }
+    }
+
     private fun reloadItemsAndNotify() {
         itemDao.getAllItems()
                 .doAfterSuccess { items ->

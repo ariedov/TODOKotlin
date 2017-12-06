@@ -11,8 +11,15 @@ import java.util.*
 data class TodoItem(
         @ColumnInfo(name = "title") val title: String,
         @ColumnInfo(name = "description") val description: String?,
-        @ColumnInfo(name = "date") val date: Date = Date(),
+        @ColumnInfo(name = "date") val date: Date = getTomorrow(),
+        @ColumnInfo(name = "isDone") val isDone: Boolean = false,
         @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = 0)
+
+fun getTomorrow(): Date {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DAY_OF_YEAR, 1)
+    return calendar.time
+}
 
 @Dao
 interface TodoItemDao {

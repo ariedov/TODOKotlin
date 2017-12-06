@@ -55,6 +55,12 @@ class TodoListPresenter(private val repo: ItemsRepository) {
         }
     }
 
+    fun markAsDone(item: TodoItem) {
+        disposables.add(repo.markAsDone(item)
+                .subscribeOn(Schedulers.io())
+                .subscribe())
+    }
+
     fun stop() {
         stoppables.dispose()
     }

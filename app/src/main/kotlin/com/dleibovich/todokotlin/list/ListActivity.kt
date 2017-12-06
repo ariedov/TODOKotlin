@@ -14,8 +14,7 @@ import javax.inject.Inject
 
 class ListActivity : AppCompatActivity(), TodoListView {
 
-    @Inject
-    lateinit var presenter: TodoListPresenter
+    @Inject lateinit var presenter: TodoListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +25,13 @@ class ListActivity : AppCompatActivity(), TodoListView {
                 .inject(this)
 
         list.layoutManager = LinearLayoutManager(this)
-        list.adapter = TodoAdapter()
+        list.adapter = TodoAdapter(list, ItemActionClickListener())
 
         add.setOnClickListener {
             startActivity(Intent(this, AddItemActivity::class.java))
         }
 
         presenter.setView(this)
-
         presenter.requestItems()
     }
 
@@ -63,5 +61,18 @@ class ListActivity : AppCompatActivity(), TodoListView {
 
     override fun setError() {
         TODO("show error")
+    }
+
+    private inner class ItemActionClickListener : TodoAdapter.ItemActionClickListener {
+
+        override fun onItemActionClicked(item: TodoItem, id: Int) {
+            when (id) {
+                R.id.done -> {
+                    presenter.markAsDone(item)
+                }
+                R.id.edit -> {}
+                R.id.delete -> {}
+            }
+        }
     }
 }

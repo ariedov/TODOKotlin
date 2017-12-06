@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Do Tomorrow!</string>
+    <string name="app_name">Do it Tomorrow!</string>
     <string name="hint_task_description">Description</string>
     <string name="hint_task_title">Title</string>
     <string name="message_no_items_planned">Nothing planned for this day.</string>
