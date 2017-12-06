@@ -4,10 +4,14 @@ import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import io.reactivex.Maybe
 import io.reactivex.Single
+import java.util.*
 
 @Entity(tableName = "items")
+@TypeConverters(DateConverter::class)
 data class TodoItem(
-        @ColumnInfo(name = "description") val description: String,
+        @ColumnInfo(name = "title") val title: String,
+        @ColumnInfo(name = "description") val description: String?,
+        @ColumnInfo(name = "date") val date: Date = Date(),
         @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = 0)
 
 @Dao
@@ -26,4 +30,13 @@ interface TodoItemDao {
 
     @Delete
     fun deleteItem(item: TodoItem): Int
+}
+
+class DateConverter {
+
+    @TypeConverter
+    fun toDate(timestamp: Long) = Date(timestamp)
+
+    @TypeConverter
+    fun toTimestamp(date: Date) = date.time
 }

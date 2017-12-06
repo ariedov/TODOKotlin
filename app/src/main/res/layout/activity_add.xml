@@ -4,20 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/description"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@android:color/transparent"
-        android:gravity="top"
-        android:hint="@string/hint_task_description"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_20sp" />
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/taskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/hint_task_title"
+            android:textSize="@dimen/text_size_20sp" />
+
+        <EditText
+            android:id="@+id/taskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="top"
+            android:hint="@string/hint_task_description"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_20sp" />
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/padding_x2" />
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_done" />
 </android.support.design.widget.CoordinatorLayout>

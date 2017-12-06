@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.TodoApp
 import com.dleibovich.todokotlin.add.AddItemActivity
@@ -52,23 +51,17 @@ class ListActivity : AppCompatActivity(), TodoListView {
     }
 
     override fun setData(items: List<TodoItem>) {
+        empty.visibility = View.GONE
+        list.visibility = View.VISIBLE
         (list.adapter as TodoAdapter).setData(items)
+    }
+
+    override fun setEmpty() {
+        list.visibility = View.GONE
+        empty.visibility = View.VISIBLE
     }
 
     override fun setError() {
         TODO("show error")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item?.itemId ?: 0
-        if (id == R.id.action_settings) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 }

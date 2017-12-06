@@ -10,6 +10,8 @@ interface TodoListView {
 
     fun setData(items: List<TodoItem>)
 
+    fun setEmpty()
+
     fun setError()
 }
 
@@ -24,7 +26,7 @@ class TodoListPresenter(private val repo: ItemsRepository) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { items ->
-                    view?.setData(items)
+                    processItems(items)
                 })
     }
 
@@ -38,11 +40,19 @@ class TodoListPresenter(private val repo: ItemsRepository) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { items ->
-                            view?.setData(items)
+                            processItems(items)
                         },
                         { _ ->
                             view?.setError()
                         }))
+    }
+
+    private fun processItems(items: List<TodoItem>) {
+        if (items.isNotEmpty()) {
+            view?.setData(items)
+        } else {
+            view?.setEmpty()
+        }
     }
 
     fun stop() {

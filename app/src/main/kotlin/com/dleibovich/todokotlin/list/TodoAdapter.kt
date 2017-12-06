@@ -21,12 +21,12 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.layout_item, parent, false)
-        return ViewHolder(itemView, itemView.findViewById(R.id.description))
+        return ViewHolder(itemView, itemView.findViewById(R.id.title))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = todoItems[position]
-        holder.description.text = item.description
+        holder.title.text = item.title
     }
 
     override fun getItemCount(): Int {
@@ -34,5 +34,5 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
     }
 
     data class ViewHolder(private val itemView: View,
-                          val description: TextView) : RecyclerView.ViewHolder(itemView)
+                          val title: TextView) : RecyclerView.ViewHolder(itemView)
 }
