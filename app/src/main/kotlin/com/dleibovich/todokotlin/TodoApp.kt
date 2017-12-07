@@ -2,10 +2,12 @@ package com.dleibovich.todokotlin
 
 import android.app.Application
 import com.dleibovich.todokotlin.di.*
+import java.util.*
 
 class TodoApp : Application() {
 
     private lateinit var appComponent: AppComponent
+    private var listComponents = mutableMapOf<Date, ListComponent>()
 
     override fun onCreate() {
         super.onCreate()
@@ -18,5 +20,18 @@ class TodoApp : Application() {
 
     fun dataComponent(): DataComponent {
         return appComponent.dataComponent()
+    }
+
+    fun getListComponent(date: Date): ListComponent {
+        var component = listComponents[date]
+        if (component == null) {
+            component = appComponent.plus(ListModule(date))
+            listComponents[date] = component
+        }
+        return component
+    }
+
+    fun clearListComponent(date: Date) {
+        listComponents.remove(date)
     }
 }

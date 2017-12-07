@@ -5,5 +5,7 @@
     <string name="hint_task_description">Description</string>
     <string name="hint_task_title">Title</string>
     <string name="message_no_items_planned">Nothing planned for this day.</string>
+    <string name="title_today">Today</string>
+    <string name="title_tomorrow">Tomorrow</string>
 
 </resources>

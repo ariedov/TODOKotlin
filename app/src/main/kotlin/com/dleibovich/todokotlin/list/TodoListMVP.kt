@@ -5,6 +5,7 @@ import com.dleibovich.todokotlin.db.TodoItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 interface TodoListView {
 
@@ -15,16 +16,19 @@ interface TodoListView {
     fun setError()
 }
 
-class TodoListPresenter(private val repo: ItemsRepository) {
+class TodoListPresenter(private val repo: ItemsRepository, private val date: Date) {
 
     private val disposables = CompositeDisposable()
     private val stoppables = CompositeDisposable()
     private var view: TodoListView? = null
 
+    private var items: List<TodoItem>? = null
+
     init {
         disposables.add(repo.getItemChanges()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map { it.filter { it.date == date } }
                 .subscribe { items ->
                     processItems(items)
                 })
@@ -35,9 +39,15 @@ class TodoListPresenter(private val repo: ItemsRepository) {
     }
 
     fun requestItems() {
+        if (items != null) {
+            processItems(items!!)
+            return
+        }
+
         stoppables.add(repo.getItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map { it.filter { it.date == date } }
                 .subscribe(
                         { items ->
                             processItems(items)
@@ -48,6 +58,7 @@ class TodoListPresenter(private val repo: ItemsRepository) {
     }
 
     private fun processItems(items: List<TodoItem>) {
+        this.items = items
         if (items.isNotEmpty()) {
             view?.setData(items)
         } else {

@@ -15,11 +15,20 @@ data class TodoItem(
         @ColumnInfo(name = "isDone") val isDone: Boolean = false,
         @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = 0)
 
-fun getTomorrow(): Date {
-    val calendar = Calendar.getInstance()
-    calendar.add(Calendar.DAY_OF_YEAR, 1)
-    return calendar.time
-}
+fun getTomorrow(): Date =
+        Calendar.getInstance().apply {
+            time = getToday()
+            add(Calendar.DAY_OF_YEAR, 1)
+        }.time
+
+fun getToday(): Date =
+        Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+
 
 @Dao
 interface TodoItemDao {

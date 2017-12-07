@@ -13,6 +13,8 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun dataComponent(): DataComponent
+
+    fun plus(listModule: ListModule): ListComponent
 }
 
 @Module

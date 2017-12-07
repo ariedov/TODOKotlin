@@ -7,8 +7,6 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
 
     private val changeSubject = PublishSubject.create<List<TodoItem>>()
 
-    private var items = listOf<TodoItem>()
-
     fun getItemChanges(): Observable<List<TodoItem>> {
         return changeSubject
     }
@@ -16,9 +14,6 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
     fun getItems(): Observable<List<TodoItem>> {
         return itemDao
                 .getAllItems()
-                .doAfterSuccess({
-                    this.items = items
-                })
                 .toObservable()
     }
 
@@ -38,7 +33,6 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
     private fun reloadItemsAndNotify() {
         itemDao.getAllItems()
                 .doAfterSuccess { items ->
-                    this.items = items
                     changeSubject.onNext(items)
                 }.subscribe()
     }
