@@ -19,5 +19,6 @@
     <dimen name="text_size_14sp">14sp</dimen>
     <dimen name="text_size_12sp">12sp</dimen>
 
+    <dimen name="z_card">4dp</dimen>
     <dimen name="fab_margin">@dimen/padding_x4</dimen>
 </resources>

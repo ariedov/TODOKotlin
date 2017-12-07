@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding_x1"
+    android:layout_margin="@dimen/z_card"
     android:clickable="true"
-    android:elevation="@dimen/padding_x1"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:stateListAnimator="@animator/item_card_animator">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -19,6 +19,8 @@
         </activity>
 
         <activity android:name=".add.AddItemActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".calendar.CalendarActivity" />
+        <activity android:name=".list.ListActivity" />
     </application>
 
 </manifest>

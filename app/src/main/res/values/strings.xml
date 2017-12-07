@@ -7,5 +7,7 @@
     <string name="message_no_items_planned">Nothing planned for this day.</string>
     <string name="title_today">Today</string>
     <string name="title_tomorrow">Tomorrow</string>
+    <string name="new_game">calendar</string>
+    <string name="no_plans_was_made">No plans was made</string>
 
 </resources>

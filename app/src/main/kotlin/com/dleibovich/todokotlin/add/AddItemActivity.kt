@@ -23,6 +23,8 @@ class AddItemActivity : AppCompatActivity(), AddItemView {
                 .dataComponent()
                 .inject(this)
 
+        setSupportActionBar(toolbar)
+
         submit.setOnClickListener {
             presenter.insertItem(TodoItem(taskTitle.string(), taskDescription.stringOrNull()))
         }

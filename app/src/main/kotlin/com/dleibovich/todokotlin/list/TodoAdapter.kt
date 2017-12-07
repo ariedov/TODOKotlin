@@ -14,7 +14,7 @@ import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.db.TodoItem
 
 class TodoAdapter(private val parent: RecyclerView, private val listener: ItemActionClickListener)
-    : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<ViewHolder>() {
 
     private val todoItems = mutableListOf<TodoItem>()
     private var expandedPosition = NO_POSITION
@@ -53,7 +53,7 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
             holder.description.visibility = GONE
         }
 
-        val listener: ((View) -> Unit) = { listener?.onItemActionClicked(item, it.id) }
+        val listener: ((View) -> Unit) = { listener.onItemActionClicked(item, it.id) }
         holder.done.setOnClickListener(listener)
         holder.edit.setOnClickListener(listener)
         holder.delete.setOnClickListener(listener)
@@ -70,14 +70,6 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
         return todoItems.size
     }
 
-    data class ViewHolder(private val root: View,
-                          val title: TextView,
-                          val description: TextView,
-                          val actions: View,
-                          val done: ImageButton,
-                          val edit: ImageButton,
-                          val delete: ImageButton) : RecyclerView.ViewHolder(root)
-
     companion object {
         val NO_POSITION = -1
     }
@@ -87,3 +79,11 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
         fun onItemActionClicked(item: TodoItem, @IdRes id: Int)
     }
 }
+
+class ViewHolder(itemView: View,
+                 val title: TextView,
+                 val description: TextView,
+                 val actions: View,
+                 val done: ImageButton,
+                 val edit: ImageButton,
+                 val delete: ImageButton) : RecyclerView.ViewHolder(itemView)

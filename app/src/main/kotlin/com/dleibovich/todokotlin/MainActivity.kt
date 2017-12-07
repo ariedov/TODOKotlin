@@ -7,7 +7,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.dleibovich.todokotlin.add.AddItemActivity
+import com.dleibovich.todokotlin.calendar.CalendarActivity
 import com.dleibovich.todokotlin.db.getToday
 import com.dleibovich.todokotlin.db.getTomorrow
 import com.dleibovich.todokotlin.list.ListFragment
@@ -27,6 +31,21 @@ class MainActivity : AppCompatActivity() {
 
         pages.adapter = MainAdapter(resources, supportFragmentManager)
         tabs.setupWithViewPager(pages)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.calendar -> {
+                startActivity(Intent(this, CalendarActivity::class.java))
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

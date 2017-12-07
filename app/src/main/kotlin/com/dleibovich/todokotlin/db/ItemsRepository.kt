@@ -2,6 +2,7 @@ package com.dleibovich.todokotlin.db
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import java.util.*
 
 class ItemsRepository(private val itemDao: TodoItemDao) {
 
@@ -15,6 +16,16 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
         return itemDao
                 .getAllItems()
                 .toObservable()
+    }
+
+    fun getItemDates(): Observable<List<Date>> {
+        return itemDao
+                .getAllItems()
+                .flatMapObservable {
+                    val result = sortedSetOf<Date>()
+                    it.forEach { result.add(it.date) }
+                    Observable.just(result.toList())
+                }
     }
 
     fun insertItem(item: TodoItem): Observable<Long> {
