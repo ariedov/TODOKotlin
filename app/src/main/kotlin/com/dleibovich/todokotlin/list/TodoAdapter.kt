@@ -3,15 +3,10 @@ package com.dleibovich.todokotlin.list
 import android.support.annotation.IdRes
 import android.support.transition.TransitionManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
-import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.db.TodoItem
+import com.dleibovich.todokotlin.list.view.TodoItemView
 
 class TodoAdapter(private val parent: RecyclerView, private val listener: ItemActionClickListener)
     : RecyclerView.Adapter<ViewHolder>() {
@@ -26,37 +21,30 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_item, parent, false)
-
-        return ViewHolder(itemView,
-                itemView.findViewById(R.id.title),
-                itemView.findViewById(R.id.description),
-                itemView.findViewById(R.id.actions),
-                itemView.findViewById(R.id.done),
-                itemView.findViewById(R.id.edit),
-                itemView.findViewById(R.id.delete))
+        return ViewHolder(TodoItemView(parent.context))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val isExpanded = expandedPosition == position
 
-        holder.itemView.isActivated = true
-        holder.actions.visibility = if (isExpanded) VISIBLE else GONE
+        holder.view.isActivated = true
+        if (isExpanded) {
+            holder.view.showActions()
+        } else {
+            holder.view.hideActions()
+        }
 
         val item = todoItems[position]
-        holder.title.text = item.title
+        holder.view.setTitle(item.title)
         if (!item.description.isNullOrEmpty()) {
-            holder.description.text = item.description
-            holder.description.visibility = VISIBLE
+            holder.view.setDescription(item.description)
+            holder.view.showDescription()
         } else {
-            holder.description.visibility = GONE
+            holder.view.hideDescription()
         }
 
         val listener: ((View) -> Unit) = { listener.onItemActionClicked(item, it.id) }
-        holder.done.setOnClickListener(listener)
-        holder.edit.setOnClickListener(listener)
-        holder.delete.setOnClickListener(listener)
+        holder.view.setOnClickListener(listener)
 
         holder.itemView.setOnClickListener {
             expandedPosition = if (isExpanded) NO_POSITION else position
@@ -80,10 +68,4 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
     }
 }
 
-class ViewHolder(itemView: View,
-                 val title: TextView,
-                 val description: TextView,
-                 val actions: View,
-                 val done: ImageButton,
-                 val edit: ImageButton,
-                 val delete: ImageButton) : RecyclerView.ViewHolder(itemView)
+class ViewHolder(val view: TodoItemView) : RecyclerView.ViewHolder(view)
