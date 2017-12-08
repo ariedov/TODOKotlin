@@ -2,7 +2,7 @@ language: android
 
 before_script:
    - mkdir -p "$ANDROID_HOME/licenses"
-   - cp .android-licenses/ "$ANDROID_HOME/licenses/"
+   - cp .android-licenses/* "$ANDROID_HOME/licenses/"
   
 script:
   - ./gradlew assembleDebug
