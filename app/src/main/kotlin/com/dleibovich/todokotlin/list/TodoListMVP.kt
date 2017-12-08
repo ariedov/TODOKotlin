@@ -29,6 +29,7 @@ class TodoListPresenter(private val repo: ItemsRepository, private val date: Dat
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.filter { it.date == date } }
+                .map { it.sortedBy { it.isDone } }
                 .subscribe { items ->
                     processItems(items)
                 })
@@ -48,6 +49,7 @@ class TodoListPresenter(private val repo: ItemsRepository, private val date: Dat
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.filter { it.date == date } }
+                .map { it.sortedBy { it.isDone } }
                 .subscribe(
                         { items ->
                             processItems(items)

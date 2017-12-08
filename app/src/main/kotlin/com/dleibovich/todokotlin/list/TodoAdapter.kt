@@ -6,10 +6,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.dleibovich.todokotlin.db.TodoItem
-import com.dleibovich.todokotlin.list.view.TodoItemView
+import com.dleibovich.todokotlin.list.view.DoneItemLayout
+import com.dleibovich.todokotlin.list.view.TodoItemLayout
 
 class TodoAdapter(private val parent: RecyclerView, private val listener: ItemActionClickListener)
-    : RecyclerView.Adapter<ViewHolder>() {
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val todoItems = mutableListOf<TodoItem>()
     private var expandedPosition = NO_POSITION
@@ -20,34 +21,27 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
         this.notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(TodoItemView(parent.context))
+    override fun getItemViewType(position: Int): Int =
+            if (!todoItems[position].isDone) {
+                TYPE_TODO
+            } else {
+                TYPE_DONE
+            }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_TODO -> TodoViewHolder(TodoItemLayout(parent.context), listener)
+            TYPE_DONE -> DoneViewHolder(DoneItemLayout(parent.context))
+            else -> throw IllegalArgumentException("no such view type $viewType")
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val isExpanded = expandedPosition == position
-
-        holder.view.isActivated = true
-        if (isExpanded) {
-            holder.view.showActions()
-        } else {
-            holder.view.hideActions()
-        }
-
-        val item = todoItems[position]
-        holder.view.setTitle(item.title)
-        if (!item.description.isNullOrEmpty()) {
-            holder.view.setDescription(item.description)
-            holder.view.showDescription()
-        } else {
-            holder.view.hideDescription()
-        }
-
-        val listener: ((View) -> Unit) = { listener.onItemActionClicked(item, it.id) }
-        holder.view.setOnClickListener(listener)
+        (holder as Bindable).bind(todoItems[position], isExpanded)
 
         holder.itemView.setOnClickListener {
-            expandedPosition = if (isExpanded) NO_POSITION else position
+            expandedPosition = if (isExpanded) TodoAdapter.NO_POSITION else position
             TransitionManager.beginDelayedTransition(parent)
             notifyDataSetChanged()
         }
@@ -59,6 +53,8 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
     }
 
     companion object {
+        val TYPE_TODO = 1
+        val TYPE_DONE = 2
         val NO_POSITION = -1
     }
 
@@ -68,4 +64,46 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
     }
 }
 
-class ViewHolder(val view: TodoItemView) : RecyclerView.ViewHolder(view)
+class TodoViewHolder(val view: TodoItemLayout,
+                     private val listener: TodoAdapter.ItemActionClickListener)
+    : RecyclerView.ViewHolder(view), Bindable {
+
+    override fun bind(item: TodoItem, isExpanded: Boolean) {
+        view.isActivated = isExpanded
+        if (isExpanded) {
+            view.showActions()
+        } else {
+            view.hideActions()
+        }
+
+        view.setTitle(item.title)
+        if (!item.description.isNullOrEmpty()) {
+            view.setDescription(item.description)
+            view.showDescription()
+        } else {
+            view.hideDescription()
+        }
+
+        val listener: ((View) -> Unit) = { listener.onItemActionClicked(item, it.id) }
+        view.setActionsClickListener(View.OnClickListener { listener(it) })
+    }
+}
+
+class DoneViewHolder(val view: DoneItemLayout) : RecyclerView.ViewHolder(view), Bindable {
+
+    override fun bind(item: TodoItem, isExpanded: Boolean) {
+        view.setTitle(item.title)
+        if (!item.description.isNullOrEmpty()) {
+            view.setDescription(item.description)
+            view.showDescription()
+        } else {
+            view.hideDescription()
+        }
+    }
+
+}
+
+interface Bindable {
+
+    fun bind(item: TodoItem, isExpanded: Boolean)
+}
