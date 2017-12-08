@@ -1,3 +1,5 @@
+![travis build](https://travis-ci.org/ariedov/TODOKotlin.svg?branch=master)
+
 TODOKotlin
 ==========
 
