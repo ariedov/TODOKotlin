@@ -74,6 +74,12 @@ class TodoListPresenter(private val repo: ItemsRepository, private val date: Dat
                 .subscribe())
     }
 
+    fun delete(item: TodoItem) {
+        disposables.add(repo.delete(item)
+                .subscribeOn(Schedulers.io())
+                .subscribe())
+    }
+
     fun stop() {
         stoppables.dispose()
     }

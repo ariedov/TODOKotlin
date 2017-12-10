@@ -2,6 +2,7 @@ package com.dleibovich.todokotlin.list
 
 import android.support.annotation.IdRes
 import android.support.transition.TransitionManager
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +17,10 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
     private var expandedPosition = NO_POSITION
 
     fun setData(todoItems: List<TodoItem>) {
+        val diffResult = DiffUtil.calculateDiff(TodoDiffUtilsCallback(this.todoItems, todoItems))
+        diffResult.dispatchUpdatesTo(this)
         this.todoItems.clear()
         this.todoItems.addAll(todoItems)
-        this.notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int =

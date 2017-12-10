@@ -56,13 +56,9 @@ class ListFragment : Fragment(), TodoListView {
 
         override fun onItemActionClicked(item: TodoItem, id: Int) {
             when (id) {
-                R.id.done -> {
-                    presenter.markAsDone(item)
-                }
-                R.id.edit -> {
-                }
-                R.id.delete -> {
-                }
+                R.id.done -> { presenter.markAsDone(item) }
+                R.id.edit -> { }
+                R.id.delete -> { presenter.delete(item) }
             }
         }
     }

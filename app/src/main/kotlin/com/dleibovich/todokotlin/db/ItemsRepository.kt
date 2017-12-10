@@ -31,14 +31,19 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
     fun insertItem(item: TodoItem): Observable<Long> {
         return Observable
                 .fromCallable { itemDao.insertItem(item) }
-                .doOnNext {
-                    reloadItemsAndNotify()
-                }
+                .doOnNext { reloadItemsAndNotify() }
     }
 
     fun markAsDone(item: TodoItem): Observable<Int> {
         return Observable
                 .fromCallable { itemDao.updateItem(item.copy(isDone = true)) }
+                .doOnNext { reloadItemsAndNotify() }
+    }
+
+    fun delete(item: TodoItem): Observable<Int> {
+        return Observable
+                .fromCallable { itemDao.deleteItem(item) }
+                .doOnNext { reloadItemsAndNotify() }
     }
 
     private fun reloadItemsAndNotify() {
