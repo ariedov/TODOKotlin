@@ -9,9 +9,9 @@ import android.view.MenuItem
 import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.TodoApp
 import com.dleibovich.todokotlin.db.TodoItem
-import com.dleibovich.todokotlin.edit.ItemError
-import com.dleibovich.todokotlin.edit.ManageItemPresenter
-import com.dleibovich.todokotlin.edit.ManageItemView
+import com.dleibovich.todokotlin.manage.ItemError
+import com.dleibovich.todokotlin.manage.ManageItemPresenter
+import com.dleibovich.todokotlin.manage.ManageItemView
 import com.dleibovich.todokotlin.string
 import kotlinx.android.synthetic.main.activity_manage.*
 import javax.inject.Inject

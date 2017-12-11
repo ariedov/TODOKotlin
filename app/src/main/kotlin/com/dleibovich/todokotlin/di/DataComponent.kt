@@ -4,7 +4,7 @@ import com.dleibovich.todokotlin.add.ManageItemActivity
 import com.dleibovich.todokotlin.calendar.CalendarActivity
 import com.dleibovich.todokotlin.db.ItemsRepository
 import com.dleibovich.todokotlin.calendar.CalendarPresenter
-import com.dleibovich.todokotlin.edit.ManageItemPresenter
+import com.dleibovich.todokotlin.manage.ManageItemPresenter
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent

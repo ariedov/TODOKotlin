@@ -1,4 +1,4 @@
-package com.dleibovich.todokotlin.edit
+package com.dleibovich.todokotlin.manage
 
 import com.dleibovich.todokotlin.db.ItemsRepository
 import com.dleibovich.todokotlin.db.TodoItem
