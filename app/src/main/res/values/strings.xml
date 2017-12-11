@@ -9,5 +9,9 @@
     <string name="title_tomorrow">Tomorrow</string>
     <string name="new_game">calendar</string>
     <string name="no_plans_was_made">No plans was made</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="create_item">Create Item</string>
+    <string name="done">Done</string>
+    <string name="error_provide_title">Please provide title</string>
 
 </resources>

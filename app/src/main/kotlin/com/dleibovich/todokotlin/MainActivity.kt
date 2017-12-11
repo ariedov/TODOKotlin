@@ -8,9 +8,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import com.dleibovich.todokotlin.add.AddItemActivity
+import com.dleibovich.todokotlin.add.ManageItemActivity
 import com.dleibovich.todokotlin.calendar.CalendarActivity
 import com.dleibovich.todokotlin.db.getToday
 import com.dleibovich.todokotlin.db.getTomorrow
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         add.setOnClickListener {
-            startActivity(Intent(this, AddItemActivity::class.java))
+            ManageItemActivity.start(this)
         }
 
         setSupportActionBar(toolbar)

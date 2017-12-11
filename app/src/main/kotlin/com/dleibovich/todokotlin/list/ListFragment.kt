@@ -1,6 +1,5 @@
 package com.dleibovich.todokotlin.list
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.TodoApp
-import com.dleibovich.todokotlin.add.EditItemActivity
+import com.dleibovich.todokotlin.add.ManageItemActivity
 import com.dleibovich.todokotlin.db.TodoItem
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.util.*
@@ -59,7 +58,7 @@ class ListFragment : Fragment(), TodoListView {
         override fun onItemActionClicked(item: TodoItem, id: Int) {
             when (id) {
                 R.id.done -> { presenter.markAsDone(item) }
-                R.id.edit -> { EditItemActivity.start(activity!!, item) }
+                R.id.edit -> { ManageItemActivity.start(activity!!, item) }
                 R.id.delete -> { presenter.delete(item) }
             }
         }
