@@ -34,6 +34,12 @@ class ItemsRepository(private val itemDao: TodoItemDao) {
                 .doOnNext { reloadItemsAndNotify() }
     }
 
+    fun updateItem(item: TodoItem): Observable<Int> {
+        return Observable
+                .fromCallable { itemDao.updateItem(item) }
+                .doOnNext { reloadItemsAndNotify() }
+    }
+
     fun markAsDone(item: TodoItem): Observable<Int> {
         return Observable
                 .fromCallable { itemDao.updateItem(item.copy(isDone = true)) }

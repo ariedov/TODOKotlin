@@ -1,20 +1,23 @@
 package com.dleibovich.todokotlin.add
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.TodoApp
 import com.dleibovich.todokotlin.db.TodoItem
+import com.dleibovich.todokotlin.edit.EditItemPresenter
+import com.dleibovich.todokotlin.edit.EditItemView
 import com.dleibovich.todokotlin.string
-import com.dleibovich.todokotlin.stringOrNull
 import kotlinx.android.synthetic.main.activity_manage.*
 import javax.inject.Inject
 
-class AddItemActivity : AppCompatActivity(), AddItemView {
+class EditItemActivity : AppCompatActivity(), EditItemView {
 
     @Inject
-    lateinit var presenter: AddItemPresenter
+    lateinit var presenter: EditItemPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +29,20 @@ class AddItemActivity : AppCompatActivity(), AddItemView {
 
         setSupportActionBar(toolbar)
 
+        val todoItem = intent.getParcelableExtra<TodoItem>(EXTRA_ITEM)
         submit.setOnClickListener {
-            presenter.insertItem(TodoItem(taskTitle.string(), taskDescription.stringOrNull()))
+            presenter.updateItem(todoItem.copy(
+                    title = taskTitle.string(),
+                    description = taskDescription.string()))
         }
 
         presenter.setView(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        taskTitle.setText(todoItem.title)
+        taskDescription.setText(todoItem.description)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -58,5 +67,15 @@ class AddItemActivity : AppCompatActivity(), AddItemView {
 
     override fun setError() {
         TODO("not implemented")
+    }
+
+    companion object {
+        val EXTRA_ITEM = "EXTRA_ITEM"
+
+        fun start(activity: Activity, item: TodoItem) {
+            activity.startActivity(Intent(activity, EditItemActivity::class.java).apply {
+                putExtra(EXTRA_ITEM, item)
+            })
+        }
     }
 }

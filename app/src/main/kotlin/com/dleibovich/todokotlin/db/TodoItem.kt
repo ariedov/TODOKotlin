@@ -2,18 +2,22 @@ package com.dleibovich.todokotlin.db
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import android.os.Parcelable
 import io.reactivex.Maybe
 import io.reactivex.Single
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Entity(tableName = "items")
 @TypeConverters(DateConverter::class)
+@Parcelize
 data class TodoItem(
         @ColumnInfo(name = "title") val title: String,
         @ColumnInfo(name = "description") val description: String?,
         @ColumnInfo(name = "date") val date: Date = getTomorrow(),
         @ColumnInfo(name = "isDone") val isDone: Boolean = false,
         @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = 0)
+    : Parcelable
 
 fun getTomorrow(): Date =
         Calendar.getInstance().apply {
