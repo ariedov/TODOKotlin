@@ -13,5 +13,6 @@
     <string name="create_item">Create Item</string>
     <string name="done">Done</string>
     <string name="error_provide_title">Please provide title</string>
+    <string name="calendar">Calendar</string>
 
 </resources>

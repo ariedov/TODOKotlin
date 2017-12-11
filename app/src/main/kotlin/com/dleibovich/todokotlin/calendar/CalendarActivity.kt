@@ -24,6 +24,8 @@ class CalendarActivity : AppCompatActivity(), CalendarView {
                 .inject(this)
 
         setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.calendar)
+
 
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter

@@ -2,6 +2,7 @@ package com.dleibovich.todokotlin.list
 
 import android.app.Activity
 import android.content.Intent
+import java.text.SimpleDateFormat
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.dleibovich.todokotlin.R
@@ -14,10 +15,11 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        val date = intent.getLongExtra(EXTRA_DATE, Date().time)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = SimpleDateFormat.getDateInstance().format(date)
 
         if (savedInstanceState == null) {
-            val date = intent.getLongExtra(EXTRA_DATE, Date().time)
             supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.container, ListFragment.create(Date(date)))
