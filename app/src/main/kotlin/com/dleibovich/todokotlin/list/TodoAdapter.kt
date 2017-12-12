@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.dleibovich.todokotlin.db.TodoItem
+import com.dleibovich.todokotlin.db.forToday
+import com.dleibovich.todokotlin.db.forTomorrow
 import com.dleibovich.todokotlin.list.view.DoneItemLayout
 import com.dleibovich.todokotlin.list.view.TodoItemLayout
 
@@ -23,12 +25,15 @@ class TodoAdapter(private val parent: RecyclerView, private val listener: ItemAc
         this.todoItems.addAll(todoItems)
     }
 
-    override fun getItemViewType(position: Int): Int =
-            if (!todoItems[position].isDone) {
-                TYPE_TODO
-            } else {
-                TYPE_DONE
-            }
+    override fun getItemViewType(position: Int): Int {
+        val item = todoItems[position]
+        return if (!item.isDone
+                && (item.forToday() || item.forTomorrow())) {
+            TYPE_TODO
+        } else {
+            TYPE_DONE
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -101,6 +106,7 @@ class DoneViewHolder(val view: DoneItemLayout) : RecyclerView.ViewHolder(view), 
         } else {
             view.hideDescription()
         }
+        view.setDone(item.isDone)
     }
 
 }

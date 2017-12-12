@@ -2,24 +2,38 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="@dimen/padding_x3"
     tools:parentTag="android.widget.LinearLayout">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_20sp"
-        tools:text="title" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_done"
+            android:textSize="@dimen/text_size_20sp"
+            tools:text="title" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_done"
+            android:textSize="@dimen/text_size_16sp"
+            tools:text="description" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/icon"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_16sp"
-        tools:text="description" />
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_item_done"/>
 </merge>

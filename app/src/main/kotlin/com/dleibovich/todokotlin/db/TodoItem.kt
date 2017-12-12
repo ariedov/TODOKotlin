@@ -1,5 +1,6 @@
 package com.dleibovich.todokotlin.db
 
+import android.annotation.SuppressLint
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.os.Parcelable
@@ -8,6 +9,7 @@ import io.reactivex.Single
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@SuppressLint("ParcelCreator")
 @Entity(tableName = "items")
 @TypeConverters(DateConverter::class)
 @Parcelize
@@ -60,3 +62,7 @@ class DateConverter {
     @TypeConverter
     fun toTimestamp(date: Date) = date.time
 }
+
+fun TodoItem.forToday(): Boolean = this.date == getToday()
+
+fun TodoItem.forTomorrow(): Boolean = this.date == getTomorrow()

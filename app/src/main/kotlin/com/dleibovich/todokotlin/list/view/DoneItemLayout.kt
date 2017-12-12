@@ -12,7 +12,6 @@ class DoneItemLayout @JvmOverloads constructor(
 
     init {
         inflate(context, R.layout.layout_done_item, this)
-        orientation = VERTICAL
         val padding = resources.getDimensionPixelSize(R.dimen.padding_x2)
         setPadding(padding, padding, padding, padding)
 
@@ -23,6 +22,10 @@ class DoneItemLayout @JvmOverloads constructor(
     fun setDescription(descriptionValue: String?) { description.text = descriptionValue }
     fun showDescription() { description.visibility = VISIBLE }
     fun hideDescription() { description.visibility = GONE }
+
+    fun setDone(done: Boolean) {
+        icon.setImageResource(if (done) R.drawable.ic_item_done else R.drawable.ic_failed)
+    }
 
     override fun setOnClickListener(l: OnClickListener?) {
         // ignore clicks

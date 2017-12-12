@@ -7,4 +7,6 @@
     <color name="colorPrimaryDark">#ba000d</color>
 
     <color name="default_bg">#40ffffff</color>
+
+    <color name="color_done">#88000000</color>
 </resources>
