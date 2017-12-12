@@ -3,6 +3,7 @@ package com.dleibovich.todokotlin.calendar
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.View
 import com.dleibovich.todokotlin.R
 import com.dleibovich.todokotlin.TodoApp
@@ -25,7 +26,8 @@ class CalendarActivity : AppCompatActivity(), CalendarView {
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.calendar)
-
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
@@ -37,6 +39,14 @@ class CalendarActivity : AppCompatActivity(), CalendarView {
     override fun onStop() {
         super.onStop()
         presenter.stop()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun setDates(dates: List<Date>) {
