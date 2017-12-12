@@ -14,5 +14,6 @@
     <string name="done">Done</string>
     <string name="error_provide_title">Please provide title</string>
     <string name="calendar">Calendar</string>
+    <string name="create_task_for_tomorrow">This will create a task for tomorrow</string>
 
 </resources>
