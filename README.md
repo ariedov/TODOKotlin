@@ -3,6 +3,8 @@
 TODOKotlin
 ==========
 
+### Screenshots
+<img src="https://raw.githubusercontent.com/ariedov/TODOKotlin/master/screenshots/empty_list.png" width="250px" /> <img src="https://raw.githubusercontent.com/ariedov/TODOKotlin/master/screenshots/add_item.png" width="250px" /> <img src="https://raw.githubusercontent.com/ariedov/TODOKotlin/master/screenshots/item_list.png" width="250px" /> 
 
 ### The idea
 The idea of the project is to create a todolist to plan your day. 
