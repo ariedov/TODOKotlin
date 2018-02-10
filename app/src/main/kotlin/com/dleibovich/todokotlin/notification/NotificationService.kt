@@ -14,6 +14,7 @@ import java.util.*
 import javax.inject.Inject
 
 const val channel = "default"
+const val tag = "todoapp"
 
 class NotificationService: Service(), Controller {
 
@@ -55,7 +56,7 @@ class NotificationService: Service(), Controller {
 
     override fun showNotification(items: List<TodoItem>) {
         notificationManager.cancelAll()
-        for (item in items) {
+        items.forEach { item ->
             val notification = NotificationCompat.Builder(this, channel)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle(item.title)
@@ -71,7 +72,7 @@ class NotificationService: Service(), Controller {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getString(R.string.no_plans_was_made))
                 .build()
-        notificationManager.notify(0, notification)
+        notificationManager.notify(tag, 0, notification)
     }
 
     companion object {
