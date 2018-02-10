@@ -2,6 +2,7 @@ package com.dleibovich.todokotlin.manage
 
 import com.dleibovich.todokotlin.db.ItemsRepository
 import com.dleibovich.todokotlin.db.TodoItem
+import com.dleibovich.todokotlin.notification.NotificationController
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -13,7 +14,9 @@ interface ManageItemView {
     fun setError(error: ItemError)
 }
 
-class ManageItemPresenter(private val repo: ItemsRepository) {
+class ManageItemPresenter(
+        private val repo: ItemsRepository,
+        private val notificationController: NotificationController) {
 
     private val disposables = CompositeDisposable()
     private var view: ManageItemView? = null
@@ -31,7 +34,10 @@ class ManageItemPresenter(private val repo: ItemsRepository) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { view?.setSuccess() }))
+                        {
+                            view?.setSuccess()
+                            notificationController.updateNotificationWith(item)
+                        }))
     }
 
     fun addItem(item: TodoItem) {
@@ -43,7 +49,10 @@ class ManageItemPresenter(private val repo: ItemsRepository) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { view?.setSuccess() }))
+                        {
+                            view?.setSuccess()
+                            notificationController.updateNotificationWith(item)
+                        }))
     }
 
     private fun performAfterValidate(item: TodoItem, action: (item: TodoItem) -> Unit) {

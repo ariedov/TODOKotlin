@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.dleibovich.todokotlin.db.AppDatabase
 import com.dleibovich.todokotlin.db.ItemsRepository
+import com.dleibovich.todokotlin.notification.NotificationController
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -35,5 +36,10 @@ class AppModule(private val appContext: Context) {
     @Provides @Singleton
     fun provideItemsRepository(database: AppDatabase): ItemsRepository {
         return ItemsRepository(database.itemDao())
+    }
+
+    @Provides @Singleton
+    fun provideNotificationController(context: Context): NotificationController {
+        return NotificationController(context)
     }
 }

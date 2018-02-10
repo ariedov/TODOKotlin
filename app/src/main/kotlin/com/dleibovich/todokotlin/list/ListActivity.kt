@@ -28,7 +28,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val EXTRA_DATE = "extra_date"
+        private const val EXTRA_DATE = "extra_date"
 
         fun show(activity: Activity, date: Date) {
             activity.startActivity(Intent(activity, ListActivity::class.java)

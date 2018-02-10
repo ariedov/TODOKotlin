@@ -18,10 +18,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".add.AddItemActivity" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".add.ManageItemActivity" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".calendar.CalendarActivity" />
         <activity android:name=".list.ListActivity" />
+
+        <service android:name=".notification.NotificationService" />
     </application>
 
 </manifest>

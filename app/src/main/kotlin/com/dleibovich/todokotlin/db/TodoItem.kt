@@ -24,7 +24,7 @@ data class TodoItem(
 fun getTomorrow(): Date =
         Calendar.getInstance().apply {
             time = getToday()
-            add(Calendar.DAY_OF_YEAR, 1)
+            add(Calendar.DATE, 1)
         }.time
 
 fun getToday(): Date =

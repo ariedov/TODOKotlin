@@ -1,13 +1,18 @@
 package com.dleibovich.todokotlin
 
 import android.app.Application
+import com.dleibovich.todokotlin.db.getToday
 import com.dleibovich.todokotlin.di.*
+import com.dleibovich.todokotlin.notification.AlarmController
+import com.dleibovich.todokotlin.notification.NotificationService
 import java.util.*
 
 class TodoApp : Application() {
 
     private lateinit var appComponent: AppComponent
     private var listComponents = mutableMapOf<Date, ListComponent>()
+
+    private lateinit var alarmController: AlarmController
 
     override fun onCreate() {
         super.onCreate()
@@ -16,6 +21,11 @@ class TodoApp : Application() {
                 .builder()
                 .appModule(AppModule(this))
                 .build()
+
+        alarmController = AlarmController(this)
+        alarmController.setupAlarm()
+
+        startService(NotificationService.createIntent(this, getToday()))
     }
 
     fun dataComponent(): DataComponent {

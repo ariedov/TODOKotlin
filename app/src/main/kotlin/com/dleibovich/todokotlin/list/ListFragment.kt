@@ -82,7 +82,7 @@ class ListFragment : Fragment(), TodoListView {
 
     companion object {
 
-        private val EXTRA_DISPLAY_DATE = "extra_display_date"
+        private const val EXTRA_DISPLAY_DATE = "extra_display_date"
 
         fun create(date: Date): ListFragment =
                 ListFragment().apply {
