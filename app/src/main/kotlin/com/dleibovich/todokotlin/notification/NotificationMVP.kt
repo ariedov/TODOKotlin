@@ -16,13 +16,24 @@ interface Controller {
 
 class NotificationPresenter(private val repo: ItemsRepository) {
 
-    private val updateDisposable: Disposable
-    private lateinit var loadDisposable: Disposable
+    private var updateDisposable: Disposable? = null
+    private var loadDisposable: Disposable? = null
     private lateinit var controller: Controller
 
-    init {
+    fun updateList(date: Date) {
+        updateDisposable?.dispose()
+        loadDisposable?.dispose()
+
+        subscribeForUpdates(date)
+        loadData(date)
+    }
+
+    private fun subscribeForUpdates(date: Date) {
         updateDisposable = repo.getItemChanges()
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map { it.filter { it.date == date } }
+                .map { it.filter { !it.isDone } }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (it.isEmpty()) {
@@ -33,11 +44,12 @@ class NotificationPresenter(private val repo: ItemsRepository) {
                 }
     }
 
-    fun updateList(date: Date) {
+    private fun loadData(date: Date) {
         loadDisposable = repo.getItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map { it.filter { it.date == date } }
+                .map { it.filter { !it.isDone } }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (it.isEmpty()) {
@@ -49,8 +61,8 @@ class NotificationPresenter(private val repo: ItemsRepository) {
     }
 
     fun stop() {
-        loadDisposable.dispose()
-        updateDisposable.dispose()
+        loadDisposable?.dispose()
+        updateDisposable?.dispose()
     }
 
     fun setController(controller: Controller) {

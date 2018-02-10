@@ -22,19 +22,31 @@ class NotificationService: Service(), Controller {
 
     private lateinit var notificationManager: NotificationManager
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onCreate() {
+        super.onCreate()
+
         (application as TodoApp)
                 .dataComponent()
                 .inject(this)
+    }
 
-        val date = intent!!.getSerializableExtra(KEY_DATE) as Date
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent != null) {
+            val date = intent.getSerializableExtra(KEY_DATE) as Date
 
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        presenter.setController(this)
-        presenter.updateList(date)
+            presenter.setController(this)
+            presenter.updateList(date)
+        }
 
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        presenter.stop()
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -42,6 +54,7 @@ class NotificationService: Service(), Controller {
     }
 
     override fun showNotification(items: List<TodoItem>) {
+        notificationManager.cancelAll()
         for (item in items) {
             val notification = NotificationCompat.Builder(this, channel)
                     .setSmallIcon(R.drawable.ic_notification)
