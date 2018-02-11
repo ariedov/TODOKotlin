@@ -5,7 +5,7 @@ before_script:
    - cp .android-licenses/* "$ANDROID_HOME/licenses/"
   
 script:
-  - ./gradlew assembleDebug
+  - ./gradlew test
 
 android:
   components:

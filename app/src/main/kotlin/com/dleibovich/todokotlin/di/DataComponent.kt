@@ -26,9 +26,8 @@ interface DataComponent {
 class DataModule {
 
     @Provides
-    fun manageItemPresenter(itemsRepository: ItemsRepository,
-                            notificationController: NotificationController): ManageItemPresenter {
-        return ManageItemPresenter(itemsRepository, notificationController)
+    fun manageItemPresenter(itemsRepository: ItemsRepository): ManageItemPresenter {
+        return ManageItemPresenter(itemsRepository)
     }
 
     @Provides

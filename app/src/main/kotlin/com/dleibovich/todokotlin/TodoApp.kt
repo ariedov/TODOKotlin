@@ -2,6 +2,7 @@ package com.dleibovich.todokotlin
 
 import android.app.Application
 import com.dleibovich.todokotlin.db.getToday
+import com.dleibovich.todokotlin.db.getTomorrow
 import com.dleibovich.todokotlin.di.*
 import com.dleibovich.todokotlin.notification.AlarmController
 import com.dleibovich.todokotlin.notification.NotificationService
@@ -25,7 +26,7 @@ class TodoApp : Application() {
         alarmController = AlarmController(this)
         alarmController.setupAlarm()
 
-        startService(NotificationService.createIntent(this, getToday()))
+        startService(NotificationService.createIntent(this, getTomorrow()))
     }
 
     fun dataComponent(): DataComponent {
