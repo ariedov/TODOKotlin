@@ -7,3 +7,5 @@
 *.iml
 .idea/
 *.hprof
+*.keystore
+app/release
